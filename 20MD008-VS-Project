@@ -1,0 +1,73 @@
+import mysql.connector
+#establish connection to MySQL database
+db=mysql.connector.connect(
+     host="localhost",
+     user="root",
+     password="root",
+     database="StudentDB"
+)
+#function to insert a new student record
+def insert_student():
+    cursor=db.cursor()
+    #Student_id=int(input())
+    s_name=input("Enter student name:")
+    s_age=int(input("Enter student Age:"))
+    s_gender=input("Enter Student gender:")
+    s_course=input("Enter Student course:")
+    query="Insert into Students(s_name,s_age,s_gender,s_course) values(%s,%s,%s,%s)"
+    values=(s_name,s_age,s_gender,s_course)
+    #cursor.execute("INSERT INTO Students(student_id ,s_name, s_age, s_gender, s_course) values (student_id, s_name, s_age, s_gender,s_course)")    
+    cursor.execute(query,values)
+    db.commit()
+    print("student record inserted Successfully")
+#function to display all student record
+def display_student():
+    cursor=db.cursor()
+    cursor.execute("Select*from student")
+    result=cursor.fetchall()
+    for row in result:
+        ("print student ID: ",row[0])
+        ("print student : ",row[1])
+        ("print student ID: ",row[2])
+        ("print student ID: ",row[3])
+        ("print student ID: ",row[4])
+        print("-------------------------------")
+#function to update student
+def update_student():
+    cursor=db.cursor()
+    student_id=int(input("Enter student ID to update:"))
+    s_name=input("Enter updated name:")
+    s_age=input("Enter updated age:")
+    s_gender=input("Enter updated gender:")
+    s_course=input("Enter updated course:")
+    query="update student set s_name=%s, s_age=%s,s_gender=%s,s_course=%s"
+    values=(s_name, s_age, s_gender, s_course,student_id)
+    cursor.execute(query, values)
+    db.commit()
+    print("Student record updated successfully!!!")
+#function to delete student record
+def delete_student():
+    cursor=db.cursor()
+    students_id=int(input("Enter student ID to delete:"))
+    query="Delete from Students where students_id= %s"
+    values=(students_id,)
+    cursor.execute(query,values)
+    db.commit()
+    print("Student record deleted successfully!!!")
+
+#main program
+print("Student Management system")
+print("---------------------------")
+choice=int(input("Enter your choice:"))
+while True:
+    if choice==1:
+        insert_student()
+    elif choice==2:
+        display_student()
+    elif choice==3:
+        update_student()
+    elif choice==4:
+        delete_student()
+    else:
+      break
+print()
